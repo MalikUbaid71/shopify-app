@@ -11,7 +11,7 @@ import { Folder, FolderOpen, ChevronRight, ChevronDown } from "lucide-react";
  * - If you haven't installed lucide-react: `npm install lucide-react`
  */
 
-const DEFAULT_STORE_HANDLE = "testing-store3322";
+const DEFAULT_STORE_HANDLE = "by39tk-uv";
 
 function TreeNode({ node, level = 0, storeHandle }) {
     const [open, setOpen] = useState(true);
