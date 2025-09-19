@@ -21,27 +21,32 @@
 # CMD ["npm", "run", "docker-start"]
 
 
-
-
 FROM node:18-alpine
-RUN apk add --no-cache openssl
 
-EXPOSE 3000
+RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-
+# Copy package files
 COPY package.json package-lock.json* ./
 
-# Install only prod deps
+# Copy prisma schema before install (so postinstall can see it)
+COPY prisma ./prisma
+
+# Install deps
 RUN npm ci --omit=dev && npm cache clean --force
 
-# Copy app files
+# Remove Shopify CLI for production (optional)
+RUN npm remove @shopify/cli || true
+
+# Copy rest of the code
 COPY . .
 
-# Build Remix app
+# Build the app
 RUN npm run build
 
-# Start Remix app
-CMD ["npm", "run", "start"]
+# Expose port
+EXPOSE 3000
+
+# Run migrations at container start and then start app
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
