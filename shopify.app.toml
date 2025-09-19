@@ -2,12 +2,11 @@
 
 client_id = "52829154ee8e87277ca412df5bda5ab2"
 name = "Collection Tree"
-application_url = "https://example.com"
+application_url = "https://collection-tree.fly.dev"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
-include_config_on_deploy = true
 
 [webhooks]
 api_version = "2025-10"
@@ -25,4 +24,8 @@ api_version = "2025-10"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://collection-tree.fly.dev/auth/callback",
+  "https://collection-tree.fly.dev/auth/shopify/callback",
+  "https://collection-tree.fly.dev/api/auth/callback"
+]
