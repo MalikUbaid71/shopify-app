@@ -1,38 +1,35 @@
-# fly.toml app configuration file generated for collection-tree on 2025-09-20T01:12:50+05:00
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# fly.toml app configuration file for collection-tree
+# See https://fly.io/docs/reference/configuration/ for details
 
-app = 'collection-tree'
-primary_region = 'sin'
+app = "collection-tree"
+primary_region = "sin"
 
 [build]
 
 [env]
-  PORT = '3000'
-  SCOPES = 'write_products'
-  SHOPIFY_API_KEY = '52829154ee8e87277ca412df5bda5ab2'
-  SHOPIFY_APP_URL = 'https://collection-tree.fly.dev'
+  PORT = "3000"
+  SCOPES = "write_products"
+  SHOPIFY_API_KEY = "52829154ee8e87277ca412df5bda5ab2"
+  SHOPIFY_APP_URL = "https://collection-tree.fly.dev"
 
-[processes]
-  app = 'node ./dbsetup.js npm run start'
-
-[[mounts]]
-  source = 'data'
-  destination = '/data'
+[mounts]
+  source = "data"
+  destination = "/data"
   auto_extend_size_threshold = 80
-  auto_extend_size_increment = '1GB'
-  auto_extend_size_limit = '10GB'
+  auto_extend_size_increment = "1GB"
+  auto_extend_size_limit = "10GB"
 
+# Define your main app service
 [http_service]
   internal_port = 3000
-  force_https = true
-  auto_stop_machines = 'stop'
+  force_https = true          # Redirect all HTTP → HTTPS
+  auto_stop_machines = "stop" # Save costs when idle
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
+  processes = ["app"]
 
+# VM settings
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
+  memory = "1gb"
+  cpu_kind = "shared"
   cpus = 1
