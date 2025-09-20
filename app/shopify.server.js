@@ -33,12 +33,3 @@ export const unauthenticated = shopify.unauthenticated;
 export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
-
-await registerWebhooks({
-  [ApiVersion.January25]: {
-    discounts: {
-      topic: "DISCOUNTS_CREATE,DISCOUNTS_UPDATE,DISCOUNTS_DELETE",
-      path: "/webhooks/discounts", // points to the new route
-    },
-  },
-});
