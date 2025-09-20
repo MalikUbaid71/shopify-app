@@ -26,7 +26,7 @@ const shopify = shopifyApp({
     : {}),
 });
 
-// ✅ Register webhooks here (no await)
+// ✅ Register webhooks only (don’t put logic here)
 shopify.registerWebhooks({
   DISCOUNTS_CREATE: {
     deliveryMethod: DeliveryMethod.Http,
@@ -50,4 +50,3 @@ export const unauthenticated = shopify.unauthenticated;
 export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
-
