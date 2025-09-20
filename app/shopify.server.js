@@ -3,12 +3,11 @@ import {
   ApiVersion,
   AppDistribution,
   shopifyApp,
-  DeliveryMethod,
 } from "@shopify/shopify-app-remix/server";
-import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
-import prisma from "./db.server.js";
-
-// --- Shopify App Setup ---
+import {
+  PrismaSessionStorage
+} from "@shopify/shopify-app-session-storage-prisma";
+import prisma from "./db.server";
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET || "",
@@ -22,29 +21,10 @@ const shopify = shopifyApp({
     unstable_newEmbeddedAuthStrategy: true,
     removeRest: true,
   },
-  ...(process.env.SHOP_CUSTOM_DOMAIN
-    ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }
-    : {}),
+  ...(process.env.SHOP_CUSTOM_DOMAIN ? {
+    customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN]
+  } : {}),
 });
-
-// --- Register Webhooks ---
-// All discount topics point to the same route (/webhooks)
-shopify.registerWebhooks({
-  DISCOUNTS_CREATE: {
-    deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/webhooks",
-  },
-  DISCOUNTS_UPDATE: {
-    deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/webhooks",
-  },
-  DISCOUNTS_DELETE: {
-    deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/webhooks",
-  },
-});
-
-// --- Export defaults ---
 export default shopify;
 export const apiVersion = ApiVersion.January25;
 export const addDocumentResponseHeaders = shopify.addDocumentResponseHeaders;
